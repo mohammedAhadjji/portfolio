@@ -1,0 +1,535 @@
+:root {
+    --bg-main: #0d1117;
+    --bg-card: #161b22;
+    --bg-tag: #21262d;
+    --border-color: #30363d;
+    --primary: #238636;
+    --primary-hover: #2ea043;
+    --accent: #58a6ff;
+    --whatsapp-color: #25D366;
+    --text-white: #f0f6fc;
+    --text-muted: #8b949e;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: var(--bg-main);
+    color: var(--text-white);
+    line-height: 1.6;
+}
+
+/* --- Header / Navigation --- */
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: rgba(22, 27, 34, 0.95);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--border-color);
+    padding: 16px 8%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 1000;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-white);
+    text-decoration: none;
+}
+
+.logo span {
+    color: var(--accent);
+}
+
+.navbar {
+    display: flex;
+    gap: 25px;
+}
+
+.nav-link {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s;
+}
+
+.nav-link:hover, .nav-link.active {
+    color: var(--accent);
+}
+
+.menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    color: var(--text-white);
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+/* --- Hero Section --- */
+.hero {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 120px 20px 60px;
+}
+
+.hero-content {
+    max-width: 800px;
+}
+
+.badge {
+    background: rgba(88, 166, 255, 0.1);
+    color: var(--accent);
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    border: 1px solid rgba(88, 166, 255, 0.3);
+}
+
+.hero h1 {
+    font-size: 3.8rem;
+    margin: 20px 0 10px;
+    font-weight: 800;
+}
+
+.subtitle {
+    color: var(--text-muted);
+    font-size: 1.3rem;
+    margin-bottom: 35px;
+}
+
+.hero-btns {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.btn {
+    padding: 12px 28px;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+}
+
+.btn-primary {
+    background: var(--primary);
+    color: var(--text-white);
+}
+
+.btn-primary:hover {
+    background: var(--primary-hover);
+    transform: translateY(-2px);
+}
+
+/* Nouveau style pour le bouton CV */
+.btn-cv {
+    background: #1f6feb;
+    color: var(--text-white);
+}
+
+.btn-cv:hover {
+    background: #388bfd;
+    transform: translateY(-2px);
+}
+
+.btn-outline {
+    border: 1px solid var(--border-color);
+    color: var(--text-white);
+}
+
+.btn-outline:hover {
+    background: var(--bg-card);
+    border-color: var(--text-muted);
+}
+
+/* --- Global Sections --- */
+section {
+    padding: 90px 8%;
+}
+
+.section-title {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.section-title h2 {
+    color: var(--accent);
+    font-size: 2.3rem;
+    margin-bottom: 10px;
+}
+
+.section-title p {
+    color: var(--text-muted);
+}
+
+/* --- Projects Grid --- */
+.projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(0.6fr, 1fr));
+    gap: 30px;
+}
+
+.card {
+    background: var(--bg-card);
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+}
+
+.media-container video {
+    width: 100%;
+    height: 500px;
+    object-fit: cover;
+    background: #000;
+    display: block;
+}
+
+.content {
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.content h3 {
+    font-size: 1.4rem;
+    margin-bottom: 12px;
+}
+
+.content p {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    margin-bottom: 20px;
+    flex-grow: 1;
+}
+
+.tech-stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+.tech-stack span {
+    background: var(--bg-tag);
+    color: var(--accent);
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    border: 1px solid var(--border-color);
+}
+
+.gallery {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+.gallery img {
+    width: 100%;
+    height: 70px;
+    object-fit: cover;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+}
+
+.gallery img:hover {
+    opacity: 0.8;
+}
+
+.card-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.btn-card {
+    flex: 1;
+    text-align: center;
+    padding: 10px;
+    border-radius: 6px;
+    background: var(--primary);
+    color: var(--text-white);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: background 0.3s;
+}
+
+.btn-card:hover {
+    background: var(--primary-hover);
+}
+
+.btn-card.btn-secondary {
+    background: var(--bg-tag);
+    border: 1px solid var(--border-color);
+}
+
+.btn-card.btn-secondary:hover {
+    background: var(--border-color);
+}
+
+/* --- Contact Section --- */
+.contact-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.contact-item {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    padding: 20px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    text-decoration: none;
+    color: var(--text-white);
+    transition: border-color 0.3s ease, transform 0.2s ease;
+}
+
+.contact-item:hover {
+    border-color: var(--accent);
+    transform: translateY(-3px);
+}
+
+.contact-item i {
+    font-size: 1.8rem;
+    color: var(--accent);
+}
+
+/* Survol / Icône spécifique WhatsApp */
+.whatsapp-item:hover {
+    border-color: var(--whatsapp-color);
+}
+
+.whatsapp-item i {
+    color: var(--whatsapp-color);
+}
+
+.contact-item h4 {
+    font-size: 1rem;
+}
+
+.contact-item p {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+}
+
+/* --- Footer --- */
+footer {
+    text-align: center;
+    padding: 30px;
+    border-top: 1px solid var(--border-color);
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+/* --- Lightbox Modal --- */
+.lightbox {
+    display: none;
+    position: fixed;
+    z-index: 2000;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    justify-content: center;
+    align-items: center;
+}
+
+.lightbox-content {
+    max-width: 90%;
+    max-height: 85%;
+    border-radius: 8px;
+}
+
+.close-lightbox {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    color: var(--text-white);
+    font-size: 40px;
+    cursor: pointer;
+}
+/* --- Hero Section avec Cover Image & Overlay Filtre --- */
+.hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 120px 20px 60px;
+
+    /* Image de couverture en arrière-plan */
+    background-image: url('images/cover.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    overflow: hidden;
+}
+
+/* Filtre moderne dégradé sombre (Overlay) + effet backdrop */
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        135deg,
+        rgba(13, 17, 23, 0.92) 0%,
+        rgba(13, 17, 23, 0.75) 50%,
+        rgba(22, 27, 34, 0.92) 100%
+    );
+    backdrop-filter: blur(2px); /* Effet flou moderne très subtil */
+    z-index: 1;
+}
+
+/* Contenu au-dessus de l'image et du filtre */
+.hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 850px;
+}
+
+/* Badge en surbrillance */
+.badge {
+    background: rgba(88, 166, 255, 0.15);
+    color: var(--accent);
+    padding: 8px 18px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    border: 1px solid rgba(88, 166, 255, 0.4);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.hero h1 {
+    font-size: 3.8rem;
+    margin: 25px 0 12px;
+    font-weight: 800;
+    text-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
+}
+
+.subtitle {
+    color: #c9d1d9;
+    font-size: 1.3rem;
+    margin-bottom: 35px;
+    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+.hero-btns {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+/* --- Style de l'image de profil --- */
+.profile-img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid var(--accent); /* Bordure bleue assortie au thème */
+    box-shadow: 0 8px 25px rgba(88, 166, 255, 0.2); /* Léger effet de lumière */
+    margin-bottom: 20px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+    z-index: 3;
+}
+
+.profile-img:hover {
+    transform: scale(1.05) translateY(-5px);
+    box-shadow: 0 12px 30px rgba(88, 166, 255, 0.4);
+}
+
+/* Ajustement mobile pour l'image */
+@media (max-width: 768px) {
+    .profile-img {
+        width: 120px;
+        height: 120px;
+        margin-bottom: 15px;
+    }
+}
+/* Responsive pour Mobile */
+@media (max-width: 768px) {
+    .hero {
+        background-position: right center; /* Recadre sur le portrait en mobile */
+    }
+    
+    .hero h1 {
+        font-size: 2.5rem;
+    }
+
+    .subtitle {
+        font-size: 1.1rem;
+    }
+}
+/* --- Mobile Responsive --- */
+@media (max-width: 768px) {
+    .menu-toggle {
+        display: block;
+    }
+
+    .navbar {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background: var(--bg-card);
+        flex-direction: column;
+        padding: 20px;
+        gap: 15px;
+        border-bottom: 1px solid var(--border-color);
+        display: none;
+    }
+
+    .navbar.active {
+        display: flex;
+    }
+
+    .hero h1 {
+        font-size: 2.5rem;
+    }
+
+    .projects-grid {
+        grid-template-columns: 1fr;
+    }
+}
