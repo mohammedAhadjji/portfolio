@@ -1,0 +1,1134 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio | Mohammed Ahadjji</title>
+    
+    <!-- FontAwesome icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        /* =========================================================
+           STYLES GÉNÉRAUX & PRESENTATION MODALS
+           ========================================================= */
+        :root {
+            --blue: #2563eb;
+            --navy: #0f172a;
+            --muted: #64748b;
+            --bg: #f8fafc;
+            --card: #ffffff;
+            --line: #e2e8f0;
+        }
+
+        .presentation-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #2563eb;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .presentation-intro {
+            max-width: 1200px;
+            margin: 30px auto 10px;
+            padding: 38px;
+            border: 1px solid rgba(37,99,235,.15);
+            border-radius: 24px;
+            background: linear-gradient(135deg, #eff6ff, #ffffff);
+            box-shadow: 0 15px 45px rgba(15,23,42,.08);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 30px;
+        }
+
+        .presentation-intro h3 {
+            font-size: 28px;
+            margin: 14px 0 10px;
+            color: #172554;
+        }
+
+        .presentation-intro p {
+            font-size: 17px;
+            color: #64748b;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        .presentation-open-btn {
+            border: 0;
+            background: #2563eb;
+            color: white;
+            border-radius: 12px;
+            padding: 16px 22px;
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+            white-space: nowrap;
+            box-shadow: 0 8px 22px rgba(37,99,235,.25);
+            transition: transform 0.2s, background-color 0.2s;
+        }
+
+        .presentation-open-btn:hover {
+            transform: translateY(-2px);
+            background-color: #1d4ed8;
+        }
+
+        /* Modal Layout */
+        .presentation-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(2, 6, 23, 0.85);
+            backdrop-filter: blur(8px);
+            z-index: 9999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 25px;
+        }
+
+        .presentation-modal.open {
+            display: flex;
+        }
+
+        .presentation-shell {
+            width: min(1500px, 96vw);
+            height: min(900px, 94vh);
+            background: #fff;
+            border-radius: 22px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 30px 100px rgba(0,0,0,.45);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .presentation-close {
+            position: absolute;
+            right: 18px;
+            top: 18px;
+            z-index: 10;
+            border: 0;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: #0f172a;
+            color: white;
+            cursor: pointer;
+            font-size: 20px;
+            transition: background-color 0.2s;
+        }
+
+        .presentation-close:hover {
+            background-color: #ef4444;
+        }
+
+        .presentation-progress {
+            padding: 18px 75px 14px 25px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            border-bottom: 1px solid #e5e7eb;
+            font-weight: 700;
+            color: #64748b;
+        }
+
+        .presentation-progress-bar {
+            height: 6px;
+            background: #e5e7eb;
+            border-radius: 99px;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        .presentation-progress-bar span {
+            display: block;
+            height: 100%;
+            width: 0;
+            background: #2563eb;
+            transition: width .25s;
+        }
+
+        .report-slideshow {
+            position: relative;
+            flex: 1;
+            overflow: hidden;
+            background: #f8fafc;
+        }
+
+        .report-slide {
+            display: none;
+            position: absolute;
+            inset: 0;
+            overflow-y: auto;
+            padding: 40px 60px;
+        }
+
+        .report-slide.active {
+            display: block;
+        }
+
+        .report-slide-inner {
+            max-width: 1250px;
+            margin: 0 auto;
+            min-height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .report-kicker {
+            font-size: 13px;
+            letter-spacing: 2px;
+            font-weight: 800;
+            color: #2563eb;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+        }
+
+        .report-slide h2 {
+            font-size: 36px;
+            line-height: 1.15;
+            color: #0f172a;
+            margin: 0 0 24px;
+            font-weight: 800;
+        }
+
+        .presentation-controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            padding: 16px;
+            border-top: 1px solid #e5e7eb;
+            background: white;
+        }
+
+        .presentation-controls button {
+            border: 0;
+            border-radius: 10px;
+            padding: 12px 24px;
+            background: #f1f5f9;
+            color: #0f172a;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .presentation-controls button:hover:not(:disabled) {
+            background: #e2e8f0;
+        }
+
+        .presentation-controls button.btn-next {
+            background: #2563eb;
+            color: white;
+        }
+
+        .presentation-controls button.btn-next:hover:not(:disabled) {
+            background: #1d4ed8;
+        }
+
+        .presentation-controls button:disabled {
+            opacity: .35;
+            cursor: not-allowed;
+        }
+
+        /* Custom slide components */
+        .hero-cms {
+            background: radial-gradient(circle at 80% 20%,#3b82f633,transparent 35%), linear-gradient(135deg,#071426,#0f2a52);
+            color: #fff;
+            padding: 40px;
+            border-radius: 20px;
+        }
+        .hero-cms h1 { font-size: 38px; margin: 10px 0; color: #fff; line-height: 1.2; }
+        .hero-cms h1 span { color: #60a5fa; }
+        .hero-cms p { font-size: 18px; color: #cbd5e1; }
+        .hero-meta { display: grid; grid-template-columns: repeat(3,1fr); gap: 18px; margin-top: 30px; }
+        .hero-meta div { padding: 16px; border: 1px solid #ffffff1f; background: #ffffff0b; border-radius: 12px; }
+        .hero-meta b { display: block; color: #60a5fa; font-size: 14px; margin-bottom: 4px; }
+        .hero-meta span { font-size: 15px; }
+
+        .lead-card { background: #fff; border: 1px solid var(--line); border-radius: 18px; padding: 28px; box-shadow: 0 10px 35px rgba(15,23,42,.06); }
+        .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; margin-top: 22px; }
+        .stats div { padding: 20px; background: #0f172a; color: #fff; border-radius: 16px; text-align: center; }
+        .stats strong { display: block; font-size: 24px; color: #60a5fa; }
+
+        .two-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; }
+        .card-box { background: #fff; border: 1px solid var(--line); border-radius: 18px; padding: 24px; }
+        .card-box.danger { border-left: 5px solid #ef4444; }
+        .card-box.success { border-left: 5px solid #22c55e; }
+
+        .bullets-list { list-style: none; padding: 0; margin: 0; }
+        .bullets-list li { display: flex; gap: 12px; margin-bottom: 14px; font-size: 16px; color: #334155; align-items: flex-start; }
+        .bullets-list i { color: #2563eb; margin-top: 4px; }
+
+        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+        .feature-box { background: #fff; padding: 22px; border-radius: 16px; border: 1px solid var(--line); }
+        .feature-box i { font-size: 28px; color: var(--blue); margin-bottom: 12px; display: inline-block; }
+        .feature-box h3 { margin: 0 0 8px; font-size: 18px; color: #0f172a; }
+        .feature-box p { margin: 0; font-size: 14px; color: #64748b; line-height: 1.5; }
+
+        .roles-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+        .role-card { background: #fff; padding: 22px; border-radius: 16px; border: 1px solid var(--line); }
+        .role-tag { display: inline-block; background: #dbeafe; color: #1d4ed8; padding: 6px 14px; border-radius: 99px; font-weight: 800; font-size: 13px; margin-bottom: 10px; }
+        .role-card p { margin: 0; font-size: 15px; color: #475569; line-height: 1.5; }
+
+        .tech-stack-pills { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 15px; }
+        .tech-pill { background: #f1f5f9; color: #0f172a; padding: 8px 14px; border-radius: 8px; font-weight: 600; font-size: 14px; border: 1px solid #e2e8f0; }
+
+        .pipeline-steps { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin-top: 20px; }
+        .step-card { background: white; padding: 16px; border-radius: 12px; border: 1px solid var(--line); text-align: center; position: relative; }
+        .step-num { width: 30px; height: 30px; background: #2563eb; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; margin: 0 auto 10px; font-size: 14px; }
+        .step-card h4 { margin: 0 0 6px; font-size: 14px; color: #0f172a; }
+        .step-card p { margin: 0; font-size: 12px; color: #64748b; }
+
+        @media(max-width: 800px) {
+            .presentation-intro { flex-direction: column; align-items: flex-start; }
+            .presentation-open-btn { width: 100%; }
+            .report-slide { padding: 30px 20px; }
+            .report-slide h2 { font-size: 26px; }
+            .stats, .grid-3, .roles-grid, .two-cols, .hero-meta, .pipeline-steps { grid-template-columns: 1fr; }
+            .hero-cms h1 { font-size: 26px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header & Navigation -->
+   <header class="header">
+        <a href="#home" class="logo"> Med-Portfolio<span>.</span></a>
+        
+        <button class="menu-toggle" id="mobile-menu" aria-label="Menu Mobile">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+
+        <nav class="navbar" id="nav-links">
+            <a href="#home" class="nav-link active">Accueil</a>
+            <a href="#projects" class="nav-link">Projets</a>
+            <a href="#PFE" class="nav-link">PFE-Project </a>
+            <a href="#cms-presentation-section" class="nav-link">PFE-Project Mémoire CMS Chatbots Rasa</a>
+            <a href="#contact" class="nav-link">Contact</a>
+        </nav>
+    </header>
+
+    <!-- Hero Section avec Photo de Couverture -->
+    <section class="hero" id="home">
+        <div class="hero-overlay"></div>
+        
+        <div class="hero-content">
+            <img src="images/med.jpg" class="profile-img" alt="Mohammed Ahadjji">
+            <br>
+            <span class="badge">Disponible pour opportunités</span>
+            
+            <h1>Mohammed Ahadjji</h1>
+            <p class="subtitle">Ingénieur d'État en Génie Informatique | Spécialiste Spring Boot & IA Agentic</p>
+            
+           <div class="hero-btns">
+    <a href="#projects" class="btn btn-primary">Découvrir mes projets</a>
+
+    <a href="https://drive.google.com/file/d/1r98uMYZ8EUBlrYJUeRsHlES-9GyOTqAe/view?usp=sharing" 
+       target="_blank" 
+       rel="noopener noreferrer" 
+       class="btn btn-cv">
+        <i class="fa-solid fa-file-arrow-down"></i> Voir / Télécharger le rapport PFE
+    </a>
+
+    <a href="https://drive.google.com/file/d/1Zclm1WsRsY_zIOSph9Jx9v3_HkSCRaxw/view?usp=sharing" 
+       target="_blank" 
+       rel="noopener noreferrer" 
+       class="btn btn-cv">
+        <i class="fa-solid fa-file-arrow-down"></i> Voir / Télécharger mon CV
+    </a>
+
+    <a href="#cms-presentation-section" class="btn btn-outline">Projet PFE : Mémoire CMS Chatbots Rasa</a>
+
+    <a href="#contact" class="btn btn-outline">Me contacter</a>
+</div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section class="projects-section" id="projects">
+        <div class="section-title">
+            <h2>Projets Réalisés</h2>
+            <p>Démonstrations vidéo, architectures et aperçus visuels de mes réalisations</p>
+        </div>
+
+        <div class="projects-grid">
+
+            <!-- Card 1: MultiBot CMS Platform -->
+            <article class="card" id="PFE">
+                <div class="media-container">
+                    <video controls poster="images/project-cms/cms.png" preload="metadata">
+                        <source src="videos/cms.mp4" type="video/mp4">
+                        Votre navigateur ne supporte pas la lecture vidéo.
+                    </video>
+                </div>
+
+                <div class="content">
+                    <h3>MultiBot CMS Platform</h3>
+
+                    <p>
+                        Développement d'une plateforme de gestion dédiée aux chatbots bancaires, permettant aux équipes métier
+                        de gérer le contenu, lancer les entraînements des bots et administrer les différentes versions des modèles.
+                        La plateforme intègre un système de versioning avec JGit ainsi qu'un mécanisme de bascule rapide vers une
+                        version stable afin d'assurer la continuité du service en cas d'incident.
+                    </p>
+
+                    <div class="tech-stack">
+                        <span>Java</span>
+                        <span>Spring Boot</span>
+                        <span>Spring Security</span>
+                        <span>Rasa NLU</span>
+                        <span>JGit</span>
+                        <span>PostgreSQL</span>
+                        <span>Docker</span>
+                        <span>REST API</span>
+                    </div>
+
+                    <div class="card-buttons">
+                        <button class="btn-card" id="openCmsModalBtn">
+                            <i class="fa-solid fa-book-open"></i> Présentation Mémoire
+                        </button>
+                        <a href="#" target="_blank" rel="noopener" class="btn-card btn-secondary">
+                            <i class="fa-brands fa-github"></i> Code Source
+                        </a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Card 2: Agence de Voyages -->
+            <article class="card">
+                <div class="media-container">
+                    <video controls poster="images/project-travel/agence.png" preload="metadata">
+                        <source src="videos/test(1).webm" type="video/webm">
+                        Votre navigateur ne supporte pas la lecture vidéo.
+                    </video>
+                </div>
+
+                <div class="content">
+                    <h3>Gestion d'agence de voyages</h3>
+                    <p>
+                        Plateforme de gestion de voyages sécurisée : suivi des réservations, gestion des circuits, contrôle d'accès basé sur les rôles et tableaux de bord.
+                    </p>
+
+                    <div class="tech-stack">
+                        <span>PHP</span>
+                        <span>Symfony</span>
+                        <span>API Platform</span>
+                        <span>Twig</span>
+                        <span>MySQL</span>
+                        <span>Angular</span>
+                    </div>
+
+                    <div class="card-buttons">
+                        <button class="btn-card" id="openAgencyModalBtn">
+                            <i class="fa-solid fa-book-open"></i> Présentation Mémoire
+                        </button>
+                        <a href="#" target="_blank" rel="noopener" class="btn-card btn-secondary">
+                            <i class="fa-brands fa-github"></i> Code Source
+                        </a>
+                    </div>
+                </div>
+            </article>
+            <!-- Card 1: RentCar -->
+<article class="card" id="RENTCAR">
+    <div class="media-container">
+        <video controls poster="images/project-rentcar/rentcar.png" preload="metadata">
+            <source src="videos/Rentcar.mp4" type="video/mp4">
+            Votre navigateur ne supporte pas la lecture vidéo.
+        </video>
+    </div>
+
+    <div class="content">
+        <h3>RentCar – Plateforme de Location de Voitures</h3>
+
+        <p>
+            Développement d'une plateforme web moderne dédiée à la location de voitures,
+            permettant aux utilisateurs de consulter les véhicules disponibles, effectuer
+            des recherches avec filtrage avancé et réserver une voiture en ligne.
+            La plateforme intègre un espace d'administration basé sur <strong>EasyAdmin</strong>
+            pour gérer les véhicules, marques, catégories, réservations et utilisateurs.
+            Un système de paiement en ligne via la passerelle <strong>CMI</strong> permet
+            de sécuriser les transactions et de confirmer les locations.
+        </p>
+
+        <div class="tech-stack">
+            <span>Symfony 6</span>
+            <span>PHP</span>
+            <span>Doctrine ORM</span>
+            <span>EasyAdmin</span>
+            <span>MySQL</span>
+            <span>Twig</span>
+            <span>JavaScript</span>
+            <span>Bootstrap</span>
+            <span>CMI Payment</span>
+            <span>REST API</span>
+        </div>
+
+        <div class="card-buttons">
+            <button class="btn-card" id="openRentCarModalBtn">
+                <i class="fa-solid fa-book-open"></i> Présentation du projet
+            </button>
+
+            <a href="#" target="_blank" rel="noopener" class="btn-card btn-secondary">
+                <i class="fa-brands fa-github"></i> Code Source
+            </a>
+        </div>
+    </div>
+</article>
+            <!-- Card 1: Hadith Chatbot -->
+<article class="card" id="PFE">
+    <div class="media-container">
+        <video controls poster="images/project-hadith/hadith.png" preload="metadata">
+            <source src="videos/hadith.mp4" type="video/mp4">
+            Votre navigateur ne supporte pas la lecture vidéo.
+        </video>
+    </div>
+
+    <div class="content">
+        <h3>Assistant Intelligent des Hadiths</h3>
+
+        <p>
+            Développement d'un chatbot intelligent dédié à la recherche des hadiths prophétiques.
+            Le projet combine <strong>Flowise AI</strong> pour la gestion de l'agent conversationnel
+            et <strong>Spring Boot</strong> pour le backend, avec une intégration de l'API Hadith
+            permettant de récupérer, rechercher et traiter les données des hadiths.
+            Le système permet aux utilisateurs d'effectuer des recherches en langage naturel
+            et d'obtenir rapidement des réponses pertinentes sur les hadiths.
+        </p>
+
+        <div class="tech-stack">
+            <span>Java</span>
+            <span>Spring Boot</span>
+            <span>Flowise AI</span>
+            <span>Hadith API</span>
+            <span>REST API</span>
+            <span>AI</span>
+            <span>Chatbot</span>
+            <span>Docker</span>
+        </div>
+
+        <div class="card-buttons">
+            <button class="btn-card" id="openHadithModalBtn">
+                <i class="fa-solid fa-book-open"></i> Présentation du projet
+            </button>
+
+            <a href="https://github.com/mohammedAhadjji/alhadith.git" target="_blank" rel="noopener" class="btn-card btn-secondary">
+                <i class="fa-brands fa-github"></i> Code Source
+            </a>
+        </div>
+    </div>
+</article>
+
+        </div>
+    </section>
+      
+
+    <!-- =========================================================
+         SECTION 1 : PRÉSENTATION MÉMOIRE CMS CHATBOTS (ATTIJARIWAFA BANK)
+         ========================================================= -->
+    <section class="agency-presentation-section" id="cms-presentation-section">
+        <div class="section-title">
+            <span class="presentation-label"><i class="fa-solid fa-graduation-cap"></i> Projet de Fin d'Études</span>
+            <h2>Mémoire CMS Chatbots Rasa</h2>
+            <p>Attijariwafa Bank — Digital Center Data</p>
+        </div>
+        <div class="presentation-intro">
+            <div>
+                <span class="badge">Attijariwafa Bank</span>
+                <h3>CMS dédié aux chatbots bancaires</h3>
+                <p>Découvrez la présentation synthétique du mémoire de PFE : problématiques métiers, architecture technique multi-tiers, modèle d'habilitation RBAC, versioning JGit et pipeline CI/CD Rasa.</p>
+            </div>
+            <button class="presentation-open-btn" id="triggerCmsModal"><i class="fa-solid fa-display"></i> Ouvrir la présentation</button>
+        </div>
+    </section>
+
+    <!-- MODAL CMS CHATBOTS -->
+    <div class="presentation-modal" id="cmsModal" aria-hidden="true">
+        <div class="presentation-shell">
+            <button class="presentation-close" id="closeCmsModal" aria-label="Fermer"><i class="fa-solid fa-xmark"></i></button>
+            
+            <div class="presentation-progress">
+                <span id="cmsCounter">1 / 8</span>
+                <div class="presentation-progress-bar"><span id="cmsProgress"></span></div>
+            </div>
+            
+            <div class="report-slideshow">
+                
+                <!-- Slide 1: Cover -->
+                <article class="report-slide active">
+                    <div class="report-slide-inner">
+                        <div class="hero-cms">
+                            <div class="report-kicker" style="color:#93c5fd;">EHEI OUJDA • GÉNIE INFORMATIQUE • PROJET DE FIN D'ÉTUDES</div>
+                            <h1>Développement d’un système de gestion de contenu <span>(CMS)</span> dédié aux chatbots d’une banque</h1>
+                            <p>Plateforme web centralisée No-Code / Low-Code pour administrer, entraîner, versionner et déployer les assistants virtuels Rasa.</p>
+                            <div class="hero-meta">
+                                <div><b>Auteur</b><span>Mohammed AHADJJI</span></div>
+                                <div><b>Organisme d'accueil</b><span>Attijariwafa Bank — Digital Center Data</span></div>
+                                <div><b>Encadrants</b><span>M. EL RHEDDENE Ahmed · Mme EL JAGHAOUI Sanaa</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Slide 2: Contexte & Enjeux Industriels -->
+                <article class="report-slide">
+                    <div class="report-slide-inner">
+                        <div class="report-kicker">CMS CHATBOTS • CONTEXTE METIER</div>
+                        <h2>Contexte & Enjeux Bancaires</h2>
+                        <div class="lead-card">
+                            <p style="font-size:20px; color:#172554; margin-bottom:15px; font-weight:600;">
+                                Au sein du Digital Center Data d’Attijariwafa Bank, la multiplication des assistants virtuels exige un rythme de mise à jour rapide tout en garantissant la sécurité des systèmes d'information bancaires.
+                            </p>
+                            <p style="font-size:16px; color:#475569; margin:0;">
+                                Les canaux digitaux demandent des réponses instantanées et précises. L'enjeu stratégique consistait à libérer les équipes IT des tâches récurrentes de modification de texte et à donner un contrôle total aux équipes métiers (product owners, éditeurs).
+                            </p>
+                        </div>
+                        <div class="stats">
+                            <div><strong>Projet PFE</strong><span>Attijariwafa Bank</span></div>
+                            <div><strong>Moteur NLU</strong><span>Rasa Open Source</span></div>
+                            <div><strong>Backend</strong><span>Spring Boot 3</span></div>
+                            <div><strong>Intégration</strong><span>JGit & Docker</span></div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Slide 3: Problématique & Solution -->
+                <article class="report-slide">
+                    <div class="report-slide-inner">
+                        <div class="report-kicker">CMS CHATBOTS • DIAGNOSTIC</div>
+                        <h2>Problématique vs Solution CMS</h2>
+                        <div class="two-cols">
+                            <div class="card-box danger">
+                                <h3 style="color:#dc2626; margin-top:0;"><i class="fa-solid fa-triangle-exclamation"></i> Avant (Goulots d'étranglement)</h3>
+                                <ul class="bullets-list">
+                                    <li><i class="fa-solid fa-xmark" style="color:#ef4444;"></i> Dépendance continue vis-à-vis des développeurs pour éditer des YAML/JSON.</li>
+                                    <li><i class="fa-solid fa-xmark" style="color:#ef4444;"></i> Délais élevés (SLA) pour publier une correction ou une réponse saisonnière.</li>
+                                    <li><i class="fa-solid fa-xmark" style="color:#ef4444;"></i> Absence d'historique métier et risque de régression lors du réentraînement Rasa.</li>
+                                    <li><i class="fa-solid fa-xmark" style="color:#ef4444;"></i> Pas de bac à sable (sandbox) intuitif pour tester avant déploiement Prod.</li>
+                                </ul>
+                            </div>
+                            <div class="card-box success">
+                                <h3 style="color:#16a34a; margin-top:0;"><i class="fa-solid fa-circle-check"></i> Solution (Plateforme CMS)</h3>
+                                <ul class="bullets-list">
+                                    <li><i class="fa-solid fa-check"></i> Interface web No-Code dédiée aux équipes fonctionnelles.</li>
+                                    <li><i class="fa-solid fa-check"></i> Édition dynamique des intentions, entités, réponses et règles de dialogue.</li>
+                                    <li><i class="fa-solid fa-check"></i> Versioning automatique des modèles via JGit avec possibilité de Rollback.</li>
+                                    <li><i class="fa-solid fa-check"></i> Déclenchement sécurisé de l'apprentissage Rasa et suivi en temps réel.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Slide 4: Architecture Technique -->
+                <article class="report-slide">
+                    <div class="report-slide-inner">
+                        <div class="report-kicker">CMS CHATBOTS • INGENIERIE</div>
+                        <h2>Architecture Technique Multi-Tiers</h2>
+                        <div class="card-box" style="margin-bottom: 20px;">
+                            <p style="margin-top:0; font-size:16px; color:#334155;">
+                                Une architecture découplée garantissant la résilience, la scalabilité et l'auditabilité globale des données bancaires.
+                            </p>
+                            <div class="tech-stack-pills">
+                                <span class="tech-pill"><i class="fa-brands fa-java" style="color:#eab308;"></i> Java 17</span>
+                                <span class="tech-pill"><i class="fa-solid fa-leaf" style="color:#22c55e;"></i> Spring Boot 3</span>
+                                <span class="tech-pill"><i class="fa-solid fa-shield-halved" style="color:#0284c7;"></i> Spring Security (JWT)</span>
+                                <span class="tech-pill"><i class="fa-solid fa-robot" style="color:#8b5cf6;"></i> Rasa NLU & Core</span>
+                                <span class="tech-pill"><i class="fa-solid fa-code-branch" style="color:#f97316;"></i> JGit Engine</span>
+                                <span class="tech-pill"><i class="fa-solid fa-database" style="color:#3b82f6;"></i> PostgreSQL</span>
+                                <span class="tech-pill"><i class="fa-brands fa-docker" style="color:#0284c7;"></i> Docker Containerization</span>
+                            </div>
+                        </div>
+                        <div class="grid-3">
+                            <div class="feature-box">
+                                <i class="fa-solid fa-layer-group"></i>
+                                <h3>Backend Service Layer</h3>
+                                <p>APIs REST robustes développées sous Spring Boot pour l'orchestration, la validation métier et la sérialisation des structures NLU.</p>
+                            </div>
+                            <div class="feature-box">
+                                <i class="fa-solid fa-code-commit"></i>
+                                <h3>Gestion de Versioning</h3>
+                                <p>Intégration du composant JGit permettant d'effectuer des commits automatiques et de tracer l'origine de chaque modification.</p>
+                            </div>
+                            <div class="feature-box">
+                                <i class="fa-solid fa-network-wired"></i>
+                                <h3>Passerelle Rasa API</h3>
+                                <p>Communication bidirectionnelle via HTTP REST API avec le serveur Rasa pour le déclenchement du training et le chargement des modèles.</p>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Slide 5: Modules Fonctionnels Clés -->
+                <article class="report-slide">
+                    <div class="report-slide-inner">
+                        <div class="report-kicker">CMS CHATBOTS • FONCTIONNALITES</div>
+                        <h2>Fonctionnalités Conversationnelles</h2>
+                        <div class="grid-3">
+                            <div class="feature-box">
+                                <i class="fa-solid fa-bullseye"></i>
+                                <h3>Intents & Examples</h3>
+                                <p>Gestion des intentions utilisateur et enrichissement des jeux de données de phrases d'exemples.</p>
+                            </div>
+                            <div class="feature-box">
+                                <i class="fa-solid fa-tags"></i>
+                                <h3>Entités & Synonymes</h3>
+                                <p>Définition des variables métiers (numéro de compte, produit bancaire) et gestion des synonymes associés.</p>
+                            </div>
+                            <div class="feature-box">
+                                <i class="fa-solid fa-comment-dots"></i>
+                                <h3>Responses (Utterances)</h3>
+                                <p>Création de réponses riches (textes, boutons d'action, carrousels, liens personnalisés).</p>
+                            </div>
+                            <div class="feature-box">
+                                <i class="fa-solid fa-diagram-project"></i>
+                                <h3>Scénarios & Rules</h3>
+                                <p>Modélisation visuelle des histoires (stories) et des règles conversationnelles strictes (rules).</p>
+                            </div>
+                            <div class="feature-box">
+                                <i class="fa-solid fa-flask"></i>
+                                <h3>Simulateur Sandbox</h3>
+                                <p>Bac à sable temps réel pour tester les dialogues et vérifier la prédiction d'intents avant publication.</p>
+                            </div>
+                            <div class="feature-box">
+                                <i class="fa-solid fa-gears"></i>
+                                <h3>Training & Deploy</h3>
+                                <p>Compilation automatique des fichiers YAML Rasa, lancement des builds et supervision des modèles.</p>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Slide 6: Matrice des Rôles (RBAC) -->
+                <article class="report-slide">
+                    <div class="report-slide-inner">
+                        <div class="report-kicker">CMS CHATBOTS • SECURITE & GOVERNANCE</div>
+                        <h2>Modèle d'Habilitation & Rôles (RBAC)</h2>
+                        <div class="roles-grid">
+                            <div class="role-card">
+                                <span class="role-tag">Bot Admin</span>
+                                <p>Administration globale des accès, création des projets de bots, validation des versions candidates et déploiement final en environnement de production.</p>
+                            </div>
+                            <div class="role-card">
+                                <span class="role-tag">Bot Designer</span>
+                                <p>Conception fonctionnelle de l'architecture conversationnelle, modélisation des règles complexes et structuration des arbres de décision.</p>
+                            </div>
+                            <div class="role-card">
+                                <span class="role-tag">Bot Trainer</span>
+                                <p>Analyse des conversations réelles, annotation des verbatims non reconnus, enrichissement du dataset NLU et lancement de l'apprentissage.</p>
+                            </div>
+                            <div class="role-card">
+                                <span class="role-tag">Bot Editor</span>
+                                <p>Relecture linguistique, mise à jour simple des contenus textuels et ajustement des messages d'aide ou de bienvenue.</p>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Slide 7: Cycle de Versioning & Entraînement -->
+                <article class="report-slide">
+                    <div class="report-slide-inner">
+                        <div class="report-kicker">CMS CHATBOTS • WORKFLOW TECH</div>
+                        <h2>Pipeline d'Entraînement & Rollback</h2>
+                        <div class="lead-card" style="margin-bottom: 20px;">
+                            <p style="margin: 0; font-size: 16px; color: #334155;">
+                                Le système garantit une zéro interruption de service grâce à un pipeline rigoureux d'assemblage, de commit Git et de bascule à chaud vers une version stable.
+                            </p>
+                        </div>
+                        <div class="pipeline-steps">
+                            <div class="step-card">
+                                <div class="step-num">1</div>
+                                <h4>Édition Web</h4>
+                                <p>Saisie des données par l'équipe métier</p>
+                            </div>
+                            <div class="step-card">
+                                <div class="step-num">2</div>
+                                <h4>Génération YAML</h4>
+                                <p>Conversion automatique au format Rasa</p>
+                            </div>
+                            <div class="step-card">
+                                <div class="step-num">3</div>
+                                <h4>Commit JGit</h4>
+                                <p>Sauvegarde versionnée dans le dépôt Git</p>
+                            </div>
+                            <div class="step-card">
+                                <div class="step-num">4</div>
+                                <h4>Training Rasa</h4>
+                                <p>Entraînement du modèle via API REST</p>
+                            </div>
+                            <div class="step-card">
+                                <div class="step-num">5</div>
+                                <h4>Rollback / Live</h4>
+                                <p>Bascule instantanée vers le modèle qualifié</p>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Slide 8: Bilan & Impacts -->
+                <article class="report-slide">
+                    <div class="report-slide-inner">
+                        <div class="report-kicker">CMS CHATBOTS • CONCLUSION & BILAN</div>
+                        <h2>Résultats & Valeur Ajoutée</h2>
+                        <div class="two-cols">
+                            <div class="card-box success">
+                                <h3 style="color:#15803d; margin-top:0;"><i class="fa-solid fa-chart-line"></i> Impacts Métiers & IT</h3>
+                                <ul class="bullets-list">
+                                    <li><i class="fa-solid fa-check" style="color:#22c55e;"></i> Autonomie complète délivrée aux équipes fonctionnelles bancaires.</li>
+                                    <li><i class="fa-solid fa-check" style="color:#22c55e;"></i> Réduction du temps de mise à disposition des mises à jour de contenu.</li>
+                                    <li><i class="fa-solid fa-check" style="color:#22c55e;"></i> Sécurité renforcée grâce au versioning strict et à la traçabilité des modifications.</li>
+                                    <li><i class="fa-solid fa-check" style="color:#22c55e;"></i> Continuité de service assurée par le mécanisme de secours (Rollback 1-Click).</li>
+                                </ul>
+                            </div>
+                            <div class="card-box">
+                                <h3 style="color:#1e3a8a; margin-top:0;"><i class="fa-solid fa-lightbulb"></i> Acquis Personnels</h3>
+                                <ul class="bullets-list">
+                                    <li><i class="fa-solid fa-star" style="color:#eab308;"></i> Maîtrise avancée de l'écosystème Spring Boot & Rasa NLP.</li>
+                                    <li><i class="fa-solid fa-star" style="color:#eab308;"></i> Application des bonnes pratiques de conception logicielle en environnement bancaire.</li>
+                                    <li><i class="fa-solid fa-star" style="color:#eab308;"></i> Gestion fine du versioning programmatique via l'API JGit.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+            </div>
+
+            <div class="presentation-controls">
+                <button id="cmsPrevBtn" class="btn-prev" disabled><i class="fa-solid fa-arrow-left"></i> Précédent</button>
+                <button id="cmsNextBtn" class="btn-next">Suivant <i class="fa-solid fa-arrow-right"></i></button>
+            </div>
+        </div>
+    </div>
+      <!-- =========================================================
+         SECTION 2 : PRÉSENTATION MÉMOIRE AGENCE DE VOYAGES
+         =========================================================
+    <section class="agency-presentation-section" id="agency-presentation-rich">
+        <div class="section-title">
+            <span class="presentation-label"><i class="fa-solid fa-book-open"></i> Projet académique</span>
+            <h2>Mémoire Agence de voyages</h2>
+            <p>Conception, architecture UML et développement Web</p>
+        </div>
+        <div class="presentation-intro">
+            <div>
+                <span class="badge">Mémoire complet</span>
+                <h3>Agence de voyage — Application Web</h3>
+                <p>Retrouvez le déroulé de l'analyse, des besoins fonctionnels, des cas d'utilisation UML, du modèle conceptuel et des interfaces utilisateur.</p>
+            </div>
+            <button class="presentation-open-btn" id="openRichAgencyPresentation"><i class="fa-solid fa-display"></i> Ouvrir la présentation</button>
+        </div>
+    </section>
+
+    <!-- MODAL AGENCE DE VOYAGES 
+    <div class="presentation-modal" id="richAgencyModal" aria-hidden="true">
+        <div class="presentation-shell">
+            <button class="presentation-close" id="closeRichAgency" aria-label="Fermer"><i class="fa-solid fa-xmark"></i></button>
+            <div class="presentation-progress">
+                <span id="richCounter">1 / 3</span>
+                <div class="presentation-progress-bar"><span id="richProgress"></span></div>
+            </div>
+
+            <div class="report-slideshow">
+                <!-- Slide 1: Cover
+                <article class="report-slide active">
+                    <div class="report-slide-inner">
+                        <div class="report-kicker">MÉMOIRE — AGENCE DE VOYAGE</div>
+                        <h2>Présentation du projet</h2>
+                        <div class="lead-card">
+                            <span class="badge" style="background:#dbeafe; color:#1d4ed8; padding:6px 12px; border-radius:99px; font-weight:bold;">Projet de Fin d’Année</span>
+                            <h3 style="font-size:28px; margin:15px 0; color:#172554;">Conception et réalisation d’une application web pour une agence de voyage</h3>
+                            <p style="font-size:18px; color:#475569;">Application web destinée à moderniser la relation avec les voyageurs, simplifier la consultation des offres, accompagner la réservation et centraliser la gestion administrative.</p>
+                        </div>
+                    </div>
+                </article>
+
+                Slide 2: Contexte
+                <article class="report-slide">
+                    <div class="report-slide-inner">
+                        <div class="report-kicker">MÉMOIRE — AGENCE DE VOYAGE</div>
+                        <h2>Introduction & Contexte</h2>
+                        <div class="lead-card">
+                            <p>Dans un monde de plus en plus connecté, les agences de voyage doivent proposer des solutions innovantes pour simplifier et améliorer l’expérience de voyage. Le rapport souligne notamment l’évolution des usages liés aux smartphones et tablettes et le besoin de solutions pratiques et instantanées pour planifier et réserver.</p>
+                            <p>Le projet s’inscrit dans cette transformation numérique en proposant une application dédiée à l’agence de voyage.</p>
+                        </div>
+                    </div>
+                </article>
+
+                 Slide 3: Etude
+                <article class="report-slide">
+                    <div class="report-slide-inner">
+                        <div class="report-kicker">MÉMOIRE — AGENCE DE VOYAGE</div>
+                        <h2>Contexte et étude de l’existant</h2>
+                        <div class="two-cols">
+                            <div class="card-box">
+                                <h3>Booking.com</h3>
+                                <p>Analyse comparative basée sur une référence mondiale de réservation pour ses fonctionnalités de recherche, comparaison, filtres et confirmations instantanées.</p>
+                            </div>
+                            <div class="card-box">
+                                <h3>Apports de notre solution</h3>
+                                <p>Personnalisation des offres d'agences locales, suivi en temps réel des dossiers clients, gestion unifiée du catalogue et tableau de bord administrateur.</p>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </div>
+
+            <!-- Controls 
+            <div class="presentation-controls">
+                <button id="richPrev"><i class="fa-solid fa-arrow-left"></i> Précédent</button>
+                <button id="richNext" class="btn-next">Suivant <i class="fa-solid fa-arrow-right"></i></button>
+            </div>
+        </div>
+    </div>-->
+
+    <!-- Contact Section -->
+    <section class="contact-section" id="contact">
+        <div class="section-title">
+            <h2>Me Contacter</h2>
+            <p>N'hésitez pas à me contacter pour toute collaboration ou opportunité</p>
+        </div>
+
+        <div class="contact-cards">
+            <!-- Email -->
+            <a href="mailto:mohammed.ahadjji@ump.ac.ma" class="contact-item">
+                <i class="fa-solid fa-envelope"></i>
+                <div>
+                    <h4>Email</h4>
+                    <p>mohammed.ahadjji@ump.ac.ma</p>
+                </div>
+            </a>
+
+            <!-- WhatsApp Direct Link -->
+            <a href="https://wa.me/212603716789" target="_blank" rel="noopener" class="contact-item whatsapp-item">
+                <i class="fa-brands fa-whatsapp"></i>
+                <div>
+                    <h4>WhatsApp</h4>
+                    <p>+212 603-716789</p>
+                </div>
+            </a>
+
+            <!-- LinkedIn -->
+            <a href="https://linkedin.com/in/mohammed-ahadjji-6b3764257" target="_blank" rel="noopener" class="contact-item">
+                <i class="fa-brands fa-linkedin"></i>
+                <div>
+                    <h4>LinkedIn</h4>
+                    <p>mohammed-ahadjji</p>
+                </div>
+            </a>
+
+            <!-- GitHub -->
+            <a href="https://github.com/mohammedAhadjji" target="_blank" rel="noopener" class="contact-item">
+                <i class="fa-brands fa-github"></i>
+                <div>
+                    <h4>GitHub</h4>
+                    <p>mohammedAhadjji</p>
+                </div>
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2026 Mohammed Ahadjji. Tous droits réservés.</p>
+    </footer>
+
+    <!-- Lightbox Modal -->
+    <div id="lightbox" class="lightbox">
+        <span class="close-lightbox">&times;</span>
+        <img class="lightbox-content" id="lightbox-img">
+    </div>
+<script>
+    // --- Generic Modal & Slideshow Logic ---
+    function setupModalSlideshow(config) {
+        const modal = document.getElementById(config.modalId);
+        const openBtns = config.openBtnIds.map(id => document.getElementById(id)).filter(Boolean);
+        const closeBtn = document.getElementById(config.closeBtnId);
+        
+        if (!modal) return;
+
+        const slides = Array.from(modal.querySelectorAll('.report-slide'));
+        const prevBtn = modal.querySelector('.btn-prev');
+        const nextBtn = modal.querySelector('.btn-next');
+        const counter = document.getElementById(config.counterId);
+        const progressBar = document.getElementById(config.progressId);
+        
+        let currentIndex = 0;
+
+        function updateSlideshow() {
+            slides.forEach((slide, idx) => {
+                slide.classList.toggle('active', idx === currentIndex);
+            });
+
+            // Update counter text
+            if (counter) {
+                counter.textContent = `${currentIndex + 1} / ${slides.length}`;
+            }
+
+            // Update progress bar width
+            if (progressBar) {
+                const percent = ((currentIndex + 1) / slides.length) * 100;
+                progressBar.style.width = `${percent}%`;
+            }
+
+            // Update button states
+            if (prevBtn) prevBtn.disabled = currentIndex === 0;
+            if (nextBtn) prevBtn ? null : null; // check next
+            if (nextBtn) nextBtn.disabled = currentIndex === slides.length - 1;
+        }
+
+        // Open Modal
+        openBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                modal.classList.add('open');
+                modal.setAttribute('aria-hidden', 'false');
+                currentIndex = 0;
+                updateSlideshow();
+            });
+        });
+
+        // Close Modal
+        if (closeBtn) {
+            closeBtn.addEventListener('click', () => {
+                modal.classList.remove('open');
+                modal.setAttribute('aria-hidden', 'true');
+            });
+        }
+
+        // Click outside modal shell to close
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.classList.remove('open');
+                modal.setAttribute('aria-hidden', 'true');
+            }
+        });
+
+        // Prev Slide
+        if (prevBtn) {
+            prevBtn.addEventListener('click', () => {
+                if (currentIndex > 0) {
+                    currentIndex--;
+                    updateSlideshow();
+                }
+            });
+        }
+
+        // Next Slide
+        if (nextBtn) {
+            nextBtn.addEventListener('click', () => {
+                if (currentIndex < slides.length - 1) {
+                    currentIndex++;
+                    updateSlideshow();
+                }
+            });
+        }
+    }
+
+    // Initialize CMS Modal
+    setupModalSlideshow({
+        modalId: 'cmsModal',
+        openBtnIds: ['openCmsModalBtn', 'triggerCmsModal'],
+        closeBtnId: 'closeCmsModal',
+        counterId: 'cmsCounter',
+        progressId: 'cmsProgress'
+    });
+
+    // Initialize Agence de Voyages Modal
+    setupModalSlideshow({
+        modalId: 'agencyModal',
+        openBtnIds: ['openAgencyModalBtn'],
+        closeBtnId: 'closeAgencyModal',
+        counterId: 'agencyCounter',
+        progressId: 'agencyProgress'
+    });
+</script>
+    <!-- JavaScript Interactif pour la Navigation et les Modals -->
+    <script>
+       /* document.addEventListener('DOMContentLoaded', function() {
+            // Navigation Mobile
+            const mobileMenuBtn = document.getElementById('mobile-menu');
+            const navbar = document.getElementById('nav-links');
+            if (mobileMenuBtn && navbar) {
+                mobileMenuBtn.addEventListener('click', () => {
+                    navbar.classList.toggle('active');
+                });
+            }*/
+
+            // Gestion du Modal CMS Mémoire
+            const cmsModal = document.getElementById('cmsModal');
+            const triggerCmsModal = document.getElementById('triggerCmsModal');
+            const openCmsModalBtn = document.getElementById('openCmsModalBtn');
+            const closeCmsModal = document.getElementById('closeCmsModal');
+            const prevBtn = document.getElementById('cmsPrevBtn');
+            const nextBtn = document.getElementById('cmsNextBtn');
+            const counter = document.getElementById('cmsCounter');
+            const progress = document.getElementById('cmsProgress');
+            const slides = document.querySelectorAll('#cmsModal .report-slide');
+            
+            let currentSlide = 0;
+            const totalSlides = slides.length;
+
+            function updateSlideView(index) {
+                slides.forEach((slide, i) => {
+                    slide.classList.toggle('active', i === index);
+                });
+                currentSlide = index;
+                if (counter) counter.textContent = `${currentSlide + 1} / ${totalSlides}`;
+                if (progress) progress.style.width = `${((currentSlide + 1) / totalSlides) * 100}%`;
+
+                if (prevBtn) prevBtn.disabled = (currentSlide === 0);
+                if (nextBtn) nextBtn.disabled = (currentSlide === totalSlides - 1);
+            }
+
+            function openModal() {
+                if (cmsModal) {
+                    cmsModal.classList.add('open');
+                    cmsModal.setAttribute('aria-hidden', 'false');
+                    updateSlideView(0);
+                    document.body.style.overflow = 'hidden';
+                }
+            }
+
+            function closeModal() {
+                if (cmsModal) {
+                    cmsModal.classList.remove('open');
+                    cmsModal.setAttribute('aria-hidden', 'true');
+                    document.body.style.overflow = '';
+                }
+            }
+
+            if (triggerCmsModal) triggerCmsModal.addEventListener('click', openModal);
+            if (openCmsModalBtn) openCmsModalBtn.addEventListener('click', openModal);
+            if (closeCmsModal) closeCmsModal.addEventListener('click', closeModal);
+
+            if (prevBtn) {
+                prevBtn.addEventListener('click', () => {
+                    if (currentSlide > 0) updateSlideView(currentSlide - 1);
+                });
+            }
+
+            if (nextBtn) {
+                nextBtn.addEventListener('click', () => {
+                    if (currentSlide < totalSlides - 1) updateSlideView(currentSlide + 1);
+                });
+            }
+
+            // Navigation Clavier (Flèches & Échap)
+            document.addEventListener('keydown', (e) => {
+                if (!cmsModal || !cmsModal.classList.contains('open')) return;
+                
+                if (e.key === 'Escape') closeModal();
+                if (e.key === 'ArrowRight' && currentSlide < totalSlides - 1) updateSlideView(currentSlide + 1);
+                if (e.key === 'ArrowLeft' && currentSlide > 0) updateSlideView(currentSlide - 1);
+            });
+      
+    </script>
+    
+
+    <script src="script.js"></script>
+</body>
+</html>
